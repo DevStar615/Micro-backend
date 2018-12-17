@@ -1,0 +1,1026 @@
+{
+  "swagger": "2.0" ,
+  "info": {
+    "version": "1.0.0" ,
+    "title": "Micro Credits Backend" ,
+    "description": "Micro Credits Backend" ,
+    "license": {
+      "name": "MIT" ,
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  } ,
+  "host": "ec2-54-171-157-12.eu-west-1.compute.amazonaws.com:3005",
+  "tags": [
+    {
+      "name":"Credits",
+      "description":"API for credits"
+    },
+    {
+      "name": "Customers" ,
+      "description": "API for Customers of the system"
+    },
+    {
+      "name":"Country",
+      "description": "API for Countries"
+    },
+    {
+      "name":"State",
+      "description": "API for States"
+    },
+    {
+      "name":"City",
+      "description": "API for Cities"
+    },
+    {
+      "name":"CustomerBalance",
+      "description": "API for Customer balances"
+    }
+  ],
+  "schemes": [
+    "http"
+  ] ,
+  "consumes": [
+    "application/json"
+  ] ,
+  "produces": [
+    "application/json"
+  ] ,
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security":[
+    {
+      "api_key":[]
+    }
+  ],
+  "paths":{
+    "/credits": {
+      "get":{
+        "tags": [
+          "Credits"
+        ],
+        "summary": "Gets all various types of credits available",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Credits"
+        ],
+        "parameters": [
+          {
+            "name": "credits",
+            "in": "body",
+            "description": "Credit data",
+            "schema": {
+              "$ref": "#/definitions/creditData"
+            }
+          }
+        ],
+        "summary": "Creates new credit record",
+        "responses": {
+          "200": {
+            "description": "New credit record is created" ,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/credits/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of credit record that we want",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "summary": "Update credit record with give ID",
+        "tags": [
+          "Credits"
+        ],
+        "parameters": [
+          {
+            "name": "credit",
+            "in": "body",
+            "description": "Credit record with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/creditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit record updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/customers/customerSignUp": {
+      "post": {
+        "tags": ["Customers"],
+        "summary": "Register new customer in the system",
+        "description": "Register new customer in the system",
+        "parameters": [
+          {
+            "name": "Customer",
+            "in": "body",
+            "description":"Data of customer",
+            "schema": {
+              "$ref": "#/definitions/customerData"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New customer is created" ,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/customers":{
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "Gets all the registered customers",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of customer record that we want",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get customer record with give ID",
+        "tags": [
+          "Customers"
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer record fetched",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update customer with give ID",
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Customer with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/updateUserData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/customers/login": {
+      "post": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "Login route for customer",
+        "description": "Allows user to login by providing credentials",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "body",
+            "description": "login credentials of customer",
+            "schema": {
+              "$ref": "#/definitions/customerLoginData"
+            }
+          }
+        ],
+        "responses" :{
+          "200": {
+            "description": "Customer logged in successfully",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/customers/otp": {
+      "post": {
+        "tags": ["Customers"],
+        "summary": "Generate Otp and send to customer",
+        "parameters": [
+          {
+            "name": "Otp data",
+            "in": "body",
+            "description": "Send otp to customer",
+            "schema": {
+              "$ref": "#/definitions/OtpData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/customers/checkforotp/{id}/{otp}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of customer that we want to find",
+          "type": "string"
+        },
+        {
+          "name":"otp",
+          "in": "path",
+          "required": true,
+          "description": "Otp",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "verified Otp",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/country": {
+      "get": {
+        "tags": [
+          "Country"
+        ] ,
+        "summary": "Get all countries" ,
+        "responses": {
+          "200": {
+            "description": "OK" ,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Country"
+        ],
+        "parameters": [
+          {
+            "name": "country",
+            "in": "body",
+            "description": "Body of country that we want to create",
+            "schema": {
+              "$ref": "#/definitions/countryData"
+            }
+          }
+        ],
+        "summary": "Creates new Country",
+        "responses": {
+          "200": {
+            "description": "New country is created" ,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/country/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of country that we want to find",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete country with given ID",
+        "tags": [
+          "Country"
+        ],
+        "responses": {
+          "200": {
+            "description": "Country is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update country with give ID",
+        "tags": [
+          "Country"
+        ],
+        "parameters": [
+          {
+            "name": "country",
+            "in": "body",
+            "description": "Country with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/countryUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Country is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Get country by id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/state": {
+      "get": {
+        "tags": [
+          "State"
+        ] ,
+        "summary": "Get all states" ,
+        "responses": {
+          "200": {
+            "description": "OK" ,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "State"
+        ],
+        "parameters": [
+          {
+            "name": "state",
+            "in": "body",
+            "description": "Body of state that we want to create",
+            "schema": {
+              "$ref": "#/definitions/stateData"
+            }
+          }
+        ],
+        "summary": "Creates new State",
+        "responses": {
+          "200": {
+            "description": "New state is created" ,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/state/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of state that we want to find",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete state with given ID",
+        "tags": [
+          "State"
+        ],
+        "responses": {
+          "200": {
+            "description": "State is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update state with give ID",
+        "tags": [
+          "State"
+        ],
+        "parameters": [
+          {
+            "name": "state",
+            "in": "body",
+            "description": "State with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/stateUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "State is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "State"
+        ],
+        "summary": "Get state by id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/state/country/{countryID}": {
+      "parameters": [
+        {
+          "name": "countryID",
+          "in": "path",
+          "required": true,
+          "description": "ID of country that we want to find states of",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "State"
+        ],
+        "summary": "Get states by country id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/city": {
+      "get": {
+        "tags": [
+          "City"
+        ] ,
+        "summary": "Get all cities" ,
+        "responses": {
+          "200": {
+            "description": "OK" ,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "City"
+        ],
+        "parameters": [
+          {
+            "name": "City",
+            "in": "body",
+            "description": "Body of city that we want to create",
+            "schema": {
+              "$ref": "#/definitions/cityData"
+            }
+          }
+        ],
+        "summary": "Creates new City",
+        "responses": {
+          "200": {
+            "description": "New city is created" ,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/city/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of city that we want to find",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete city with given ID",
+        "tags": [
+          "City"
+        ],
+        "responses": {
+          "200": {
+            "description": "City is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update city with give ID",
+        "tags": [
+          "City"
+        ],
+        "parameters": [
+          {
+            "name": "City",
+            "in": "body",
+            "description": "City with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/cityUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "City is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Get city by id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/city/state/{stateID}": {
+      "parameters": [
+        {
+          "name": "stateID",
+          "in": "path",
+          "required": true,
+          "description": "ID of state that we want to find cities of",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Get cities by state id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/city/country/{countryID}": {
+      "parameters": [
+        {
+          "name": "countryID",
+          "in": "path",
+          "required": true,
+          "description": "ID of country that we want to find cities of",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Get cities by country id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/customerBalance": {
+      "get":{
+        "tags": [
+          "CustomerBalance"
+        ],
+        "summary": "Gets balances of all customer",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "CustomerBalance"
+        ],
+        "parameters": [
+          {
+            "name": "CustomerBalance",
+            "in": "body",
+            "description": "Body of customer balance that we want to create",
+            "schema": {
+              "$ref": "#/definitions/customerBalanceData"
+            }
+          }
+        ],
+        "summary": "Creates new balance account for customer",
+        "responses": {
+          "200": {
+            "description": "New city is created" ,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/customerBalance/{customerId}": {
+      "parameters": [
+        {
+          "name": "customerId",
+          "in": "path",
+          "required": true,
+          "description": "ID of customer",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "summary": "Update balance with give customer id",
+        "tags": [
+          "CustomerBalance"
+        ],
+        "parameters": [
+          {
+            "name": "country",
+            "in": "body",
+            "description": "Country with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/balanceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer balance is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "CustomerBalance"
+        ],
+        "summary": "Get balance by id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "creditData": {
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "creditUpdate": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "customerData": {
+      "required": [
+        "firstName",
+        "lastName",
+        "streetNo",
+        "cityId",
+        "stateId",
+        "postalCode",
+        "countryId",
+        "dateOfBirth",
+        "countryCode",
+        "phoneNumber",
+        "email",
+        "password",
+        "type"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "streetNo": {
+          "type": "string"
+        },
+        "cityId": {
+          "type": "integer"
+        },
+        "stateId": {
+          "type": "integer"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "integer"
+        },
+        "dateOfBirth": {
+          "format":"date",
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "pattern": "^(([^<>()\\[\\]\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$"
+        },
+        "password": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum":["phoneNumber", "email"]
+        }
+      }
+    },
+    "OtpData": {
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "customerLoginData": {
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "updateUserData": {
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "streetNo": {
+          "type": "string"
+        },
+        "cityId": {
+          "type": "integer"
+        },
+        "stateId": {
+          "type": "integer"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "integer"
+        },
+        "dateOfBirth": {
+          "format":"date",
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "countryData": {
+      "required": [
+        "countryName"
+      ],
+      "properties": {
+        "countryName": {
+          "type": "string"
+        }
+      }
+    },
+    "countryUpdate": {
+      "required": [
+        "countryName"
+      ],
+      "properties": {
+        "countryName": {
+          "type": "string"
+        }
+      }
+    },
+    "stateData": {
+      "required": [
+        "stateName",
+        "countryId"
+      ],
+      "properties": {
+        "stateName": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "integer"
+        }
+      }
+    },
+    "stateUpdate": {
+      "required": [
+        "stateName"
+      ],
+      "properties": {
+        "stateName": {
+          "type": "string"
+        }
+      }
+    },
+    "cityData": {
+      "required": [
+        "cityName",
+        "stateId"
+      ],
+      "properties": {
+        "cityName": {
+          "type": "string"
+        },
+        "stateId": {
+          "type": "integer"
+        }
+      }
+    },
+    "cityUpdate": {
+      "required": [
+        "cityName"
+      ],
+      "properties": {
+        "cityName": {
+          "type": "string"
+        }
+      }
+    },
+    "balanceUpdate": {
+      "required": [
+        "balance"
+      ],
+      "properties": {
+        "balance": {
+          "type": "number"
+        }
+      }
+    },
+    "customerBalanceData":{
+      "required": [
+        "customerId",
+        "balance"
+      ],
+      "properties": {
+        "customerId":{
+          "type":"integer"
+        },
+        "balance": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

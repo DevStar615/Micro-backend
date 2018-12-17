@@ -1,0 +1,31 @@
+{
+  "name": "micro-credits",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "cluster": "^0.7.7",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.3.0",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.0",
+    "mysql2": "^1.6.1",
+    "nodemailer": "^4.6.8",
+    "otp-generator": "^1.1.0",
+    "path": "^0.12.7",
+    "rotating-file-stream": "^1.3.7",
+    "sequelize": "^4.38.0",
+    "swagger-ui-express": "^4.0.0",
+    "twilio": "^3.19.2"
+  }
+}
